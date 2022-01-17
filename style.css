@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    margin: 30px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: #81B29A;
+    height: 100%;
+}
+
+#c {
+    background-color: #221E22;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
