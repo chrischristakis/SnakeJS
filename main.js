@@ -17,6 +17,7 @@ let gameover = false;
 let snake;  // Hold a list of row,col indexes of each snake cell
 let grid;
 let dir;
+let prevDir;
 let tps = 15;
 
 init();
@@ -67,6 +68,7 @@ function update() {
         if(!gameover) {
             const [headR, headC] = snake[snake.length-1];
             const [offR, offC] = dir;
+            prevDir = dir;
             let nextR = headR + offR;
             let nextC = headC + offC;
 
@@ -125,19 +127,19 @@ function draw() {
 document.addEventListener('keydown', (event) => {
     switch(event.key) {
         case 'w':
-            if(dir !== Direction.DOWN)
+            if(prevDir !== Direction.DOWN)
                 dir = Direction.UP;
             break;
         case 's':
-            if(dir !== Direction.UP)
+            if(prevDir !== Direction.UP)
                 dir = Direction.DOWN;
             break;
         case 'a':
-            if(dir !== Direction.RIGHT)
+            if(prevDir !== Direction.RIGHT)
                 dir = Direction.LEFT;
             break;
         case 'd':
-            if(dir !== Direction.LEFT)
+            if(prevDir !== Direction.LEFT)
                dir = Direction.RIGHT;
             break;
         case ' ':
