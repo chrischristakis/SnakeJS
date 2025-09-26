@@ -1,8 +1,8 @@
 const canvas = document.getElementById("c");
-const cw = canvas.width = 600;
-const ch = canvas.height = 600;
+const cw = canvas.width = 550;
+const ch = canvas.height = 550;
 const ctx = canvas.getContext("2d");
-const gridDim = 20;
+const gridDim = 18;
 const cellW = cw/gridDim;
 const cellH = ch/gridDim;
 const Direction = {  // Offsets for our grid indexes
@@ -11,23 +11,27 @@ const Direction = {  // Offsets for our grid indexes
     UP: [-1, 0],
     DOWN: [1, 0]
 };
+const tps = 15;
 
 let snakeLen;
 let gameover = false;
 let snake;  // Hold a list of row,col indexes of each snake cell
 let grid;
 let dir;
-let prevDir;
-let tps = 15;
+let nextDir;
 
 init();
 
 function init() {
     grid = createGrid(gridDim);
-    grid[0][0] = 1;
-    snake = [[0,0]];
+
+    const startX = Math.floor(gridDim / 2);
+    const startY = 0;
+
+    grid[startY][startX] = 1;
+    snake = [[startY,startX]];
     snakeLen = 5;
-    dir = Direction.DOWN;
+    nextDir = Direction.DOWN;
     spawnFruit();
 
     gameover = false;
@@ -67,8 +71,8 @@ function update() {
     let intervalID = setInterval(() => {
         if(!gameover) {
             const [headR, headC] = snake[snake.length-1];
-            const [offR, offC] = dir;
-            prevDir = dir;
+            const [offR, offC] = nextDir;
+            dir = nextDir;
             let nextR = headR + offR;
             let nextC = headC + offC;
 
@@ -127,20 +131,20 @@ function draw() {
 document.addEventListener('keydown', (event) => {
     switch(event.key) {
         case 'w':
-            if(prevDir !== Direction.DOWN)
-                dir = Direction.UP;
+            if(dir !== Direction.DOWN)
+                nextDir = Direction.UP;
             break;
         case 's':
-            if(prevDir !== Direction.UP)
-                dir = Direction.DOWN;
+            if(dir !== Direction.UP)
+                nextDir = Direction.DOWN;
             break;
         case 'a':
-            if(prevDir !== Direction.RIGHT)
-                dir = Direction.LEFT;
+            if(dir !== Direction.RIGHT)
+                nextDir = Direction.LEFT;
             break;
         case 'd':
-            if(prevDir !== Direction.LEFT)
-               dir = Direction.RIGHT;
+            if(dir !== Direction.LEFT)
+               nextDir = Direction.RIGHT;
             break;
         case ' ':
             if(gameover) 
